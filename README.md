@@ -3,6 +3,8 @@ A module loader for roblox, yes this is a glorified module loader, yes it might 
 
 Credit me if you want, I dont really care.
 
+I've never done github before so you may find mistakes.
+
 # Up-To Date documentation, you can find per version docs within the module script.
 
 ## Functions:

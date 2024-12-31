@@ -1,4 +1,4 @@
--- zlpds
+--zlpds
 local Weave = {}
 
 local RunService = game:GetService("RunService")
@@ -39,12 +39,18 @@ function Weave:subscribeToChannel(channel, callback)
 	table.insert(self.messageBus[channel], callback)
 end
 
+function Weave:resetChannel(channel)
+	if self.messageBus[channel] then
+		self.messageBus[channel] = {}
+	end
+end
+
 function Weave:loadFolder(folder)
 	if not folder or not folder:IsA("Folder") then
 		self:log("Invalid folder provided.", "ERROR")
 		return
 	end
-
+	
 	local moduleFiles = {}
 	for _, moduleScript in ipairs(folder:GetChildren()) do
 		if moduleScript:IsA("ModuleScript") then
@@ -53,8 +59,8 @@ function Weave:loadFolder(folder)
 	end
 
 	table.sort(moduleFiles, function(a, b)
-		local aLoadOrder = require(a).LoadOrder or 1
-		local bLoadOrder = require(b).LoadOrder or 1
+		local aLoadOrder = math.clamp(require(a).LoadOrder, 1, 999) or 2
+		local bLoadOrder = math.clamp(require(b).LoadOrder, 1, 999) or 2
 		return aLoadOrder > bLoadOrder
 	end)
 
@@ -62,7 +68,9 @@ function Weave:loadFolder(folder)
 		local module = require(moduleScript)
 
 		if module.init then
-			module:init(self)
+			task.spawn(function()
+				module:init(self)
+			end)
 		end
 
 		self:mergeModuleHandlers(module)

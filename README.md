@@ -17,6 +17,15 @@ I've never done github before so you may find mistakes.
   local weaveInstance = Weave.new()
   ```
 
+### `Weave:loadFolder(folder)` -> Loads modules from a specified folder.
+  - `folder`: The Folder instance containing ModuleScripts to load.
+  
+  **Example:**
+  ```
+  local folder = game.ServerStorage.Modules
+  weaveInstance:loadFolder(folder)
+  ```
+
 ### `Weave:log(message, level)` -> Logs a message with an optional log level ("INFO", "WARN", "ERROR").
   - `message`: The message to log.
   - `level`: The log level (default: "INFO").
@@ -51,13 +60,12 @@ I've never done github before so you may find mistakes.
   end)
   ```
 
-### `Weave:loadFolder(folder)` -> Loads modules from a specified folder.
-  - `folder`: The Folder instance containing ModuleScripts to load.
+### `Weave:resetChannel(channel)` -> Resets all present functions within a Channel
+  - `channel`: The channel to reset.
   
   **Example:**
   ```
-  local folder = game.ServerStorage.Modules
-  weaveInstance:loadFolder(folder)
+  weaveInstance:resetChannel("gameStart")
   ```
 
 ### `Weave:cleanup()` -> Cleans up and calls the `cleanup` function on all loaded modules (if exists).
